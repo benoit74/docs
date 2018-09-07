@@ -114,7 +114,20 @@ rdt push completed successfully!
 52.4.252.97 - - [10/Mar/2017 21:53:22] "GET / HTTP/1.1" 200 -
 ```
 
-In your code you will still have access to most of the regular {{ $names.company.lower }} device features. For example, you will still be able to query and use the [supervisor API][supervisor API]. However, you will notice that your local mode device will not push logs back to the {{ $names.company.lower }} dashboard. You also won't be able to set environment or configuration variables from the dashboard, but you can set them in your `.{{ $names.company.short }}-sync.yml`.
+In your code you will still have access to most of the regular {{ $names.company.lower }} device features. For example, you will still be able to query and use the [supervisor API][supervisor API]. However, you will notice that your local mode device will not push logs back to the {{ $names.company.lower }} dashboard. You also won't be able to set environment or configuration variables from the dashboard, but you can set them in your `.{{ $names.company.short }}-sync.yml` like below.
+
+```
+local_resinos:
+  ...
+  environment:
+    - ENV_VAR=value
+  ...
+```
+Note that any change to environment variables in `.{{ $names.company.short }}-sync.yml` will need a rebuild of the container to be applied (a simple push is not sufficient):
+
+```
+sudo {{ $names.company.short }} local push f340127.local -s . --force-build
+```
 
 ## SSH into the running app container or host OS
 
